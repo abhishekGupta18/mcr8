@@ -3,12 +3,14 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 
 import { Home } from "./Pages/Home";
+import { MeetingDetails } from "./Pages/MeetingDetails";
 
 function App() {
   return (
     <div>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/meetDetails/:meetId" element={<MeetingDetails />} />
       </Routes>
     </div>
   );

@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useDataContext } from "../Context/DataContext";
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
   const [search, setSearch] = useState("");
   const [type, setType] = useState("");
   const { meetingData } = useDataContext();
 
+  const navigate = useNavigate();
   const searchByTitleAndTag =
     search?.length >= 0
       ? meetingData?.meetups?.filter((item) =>
@@ -50,7 +52,10 @@ export const Home = () => {
       </div>
       <ul className="flex gap-8 flex-wrap items-center justify-center">
         {searchByType?.map((item) => (
-          <li className=" relative rounded-[1rem] shadow-xl p-4 flex flex-col justify-center items-center">
+          <li
+            className=" relative rounded-[1rem] shadow-xl p-4 flex flex-col justify-center items-center cursor-pointer"
+            onClick={() => navigate(`/meetDetails/${item.id}`)}
+          >
             <img
               src={item?.eventThumbnail}
               alt="meeting img"
