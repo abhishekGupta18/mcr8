@@ -7,10 +7,10 @@ export default {
     },
     extend: {},
     colors: {
-      "primary-color": "#3730a3",
-      "sec-color": "#f1f5f9",
+      "primary-color": "#ef4444",
+      "sec-color": "#dc2626",
       "white-color": "#ffff",
-      "black-color": "#0000",
+      "black-color": "#0c0a09",
     },
   },
   plugins: [],
