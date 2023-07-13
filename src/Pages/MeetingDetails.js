@@ -2,10 +2,28 @@ import { useParams } from "react-router-dom";
 import { useDataContext } from "../Context/DataContext";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import { Modal } from "@mui/material";
+import { useState } from "react";
 export const MeetingDetails = () => {
+  const [openModal, setOpenModal] = useState(false);
+  const [paid, setPaid] = useState(false);
   const { meetingData } = useDataContext();
   const { meetId } = useParams();
   const findMeet = meetingData?.meetups?.find((item) => item?.id === meetId);
+
+  const openRsvpModal = () => setOpenModal(true);
+  const closewRsvpModal = () => setOpenModal(false);
+
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    p: 4,
+  };
 
   return (
     <div className="flex flex-col gap-4">
@@ -93,12 +111,62 @@ export const MeetingDetails = () => {
                 </li>
               ))}
             </ul>
-            <button className="bg-primary-color mx-auto w-[200px] mt-8 text-white-color p-2 rounded-[0.5rem]">
-              RSPV
+            <button
+              className="bg-primary-color mx-auto w-[200px] mt-8 text-white-color p-2 rounded-[0.5rem]"
+              onClick={() => openRsvpModal()}
+            >
+              {paid ? "already RSPV" : "RSPV"}
             </button>
           </div>
         </div>
       </div>
+
+      <Modal
+        open={openModal}
+        onClose={closewRsvpModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <div style={{ ...style }}>
+          <form className=" flex flex-col p-4 items-center gap-4 bg-white-color rounded-4 ">
+            <p className="text-2xl font-medium">Complete your RSPV</p>
+            <p>Fill your personal information</p>
+            <label>
+              {" "}
+              Name:{" "}
+              <input
+                required
+                type="text"
+                placeholder="name"
+                className="border border-black border-solid rounded-4 px-4"
+              />
+            </label>
+            <label>
+              {" "}
+              Email:{" "}
+              <input
+                required
+                type="email"
+                placeholder="email"
+                className="border border-black border-solid rounded-4 px-4"
+              />
+            </label>
+            <p>
+              {findMeet?.isPaid ? null : "*you have to make payment at a venue"}
+            </p>
+            <button
+              type="submit"
+              className="bg-primary-color mx-auto w-[200px]  text-white-color p-2 rounded-[0.5rem]"
+              onClick={() => {
+                setPaid(true);
+                closewRsvpModal();
+              }}
+            >
+              RSVP
+            </button>
+          </form>
+        </div>
+      </Modal>
     </div>
   );
 };
